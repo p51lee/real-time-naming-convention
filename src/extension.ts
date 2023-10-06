@@ -4,23 +4,56 @@ import * as vscode from 'vscode';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
+type RegexTuple = [RegExp, string];
+
+const pythonChangeList: RegexTuple[] = [
+	[/print\((.*)\)/g, 'console.log($1)'],
+	// Add more Python-specific regex tuples here
+];
+
+const cChangeList: RegexTuple[] = [
+	[/\/\/(.*)/g, '/* $1 */'],
+	// Add more C-specific regex tuples here
+];
+
+const changeLists: { [key: string]: RegexTuple[] } = {
+	'py': pythonChangeList,
+	'c': cChangeList,
+	// Add more file extensions and their change lists here
+};
+
 export function activate(context: vscode.ExtensionContext) {
+	let disposable = vscode.workspace.onDidChangeTextDocument((event) => {
+		let editor = vscode.window.activeTextEditor;
+		if (editor) {
+			let document = editor.document;
+			let fileExtension = document.fileName.split('.').pop();
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "code-correction" is now active!');
+			if (fileExtension && changeLists.hasOwnProperty(fileExtension)) {
+				let position = editor.selection.active;
+				let line = document.lineAt(position.line);
+				let lineText = line.text;
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('code-correction.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from code-correction!');
+				let updatedLineText = lineText;
+				for (const [findRegex, replaceWith] of changeLists[fileExtension]) {
+					updatedLineText = updatedLineText.replace(findRegex, replaceWith);
+				}
+
+				if (lineText !== updatedLineText) {
+					editor.edit((editBuilder) => {
+						let range = new vscode.Range(
+							new vscode.Position(position.line, 0),
+							new vscode.Position(position.line, line.text.length)
+						);
+						editBuilder.replace(range, updatedLineText);
+					});
+				}
+			}
+		}
 	});
 
 	context.subscriptions.push(disposable);
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
