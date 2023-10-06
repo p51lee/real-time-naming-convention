@@ -46,6 +46,12 @@ export function activate(context: vscode.ExtensionContext) {
 							new vscode.Position(position.line, line.text.length)
 						);
 						editBuilder.replace(range, updatedLineText);
+					}).then(() => {
+						// Set the cursor to the beginning of the line
+						if (editor) {
+							let newPosition = new vscode.Position(position.line, updatedLineText.length);
+							editor.selection = new vscode.Selection(newPosition, newPosition);
+						}
 					});
 				}
 			}
