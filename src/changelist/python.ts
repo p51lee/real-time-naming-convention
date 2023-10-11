@@ -1,23 +1,18 @@
 import { Convention, ConventionPhrase } from "../types";
 
-// legacy
-export const pythonChangeList: [RegExp, string][] = [
-  [/((?:^\s*)(?:(?!(def|class))\w+))\s/, '$1_'],
-  [/((?:^\s*)(?:(?!def)\w+))_=/, '$1 ='],
-  [/((?:^\s*)def\s\w*)\s/, '$1_'],
-  [/((?:^\s*)def\s\w+\(\w*(?:,\s\w*)*)\s/g, '$1_'],
-];
+const reservedWords = ['def', 'class', 'if', 'elif', 'else'];
+const excludePattern = `(?!(?:${reservedWords.join('|')})\\b)`;
 
-// blank spaces right afther these patterns changes into "_".
+// naming convention helper only modifies declaration
 export const pythonPhrases: ConventionPhrase[] = [
   // variable names (snake_case)
   {
-    pattern: /(?:^\s*)(?:(?!def|class)\w+)\s/,
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+)\\s`),
     convention: Convention.snakeCase,
     replacer: text => text.slice(0, -1) + "_"
   },
   {
-    pattern: /(?:^\s*)(?:(?!def)\w+)_=/,
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+)_=`),
     convention: Convention.snakeCase,
     replacer: text => text.slice(0, -2) + " ="
   },
@@ -33,7 +28,29 @@ export const pythonPhrases: ConventionPhrase[] = [
     convention: Convention.snakeCase,
     replacer: text => text.slice(0, -1) + "_"
   },
+  // class names (PascalCase)
+  {
+    pattern: /(?:^\s*)class\s[a-z]/,
+    convention: Convention.pascalCase,
+    replacer: text => text.slice(0, -1) + text.slice(-1).toUpperCase()
+  },
+  {
+    pattern: /(?:^\s*)class\s\w+\s\w/,
+    convention: Convention.pascalCase,
+    replacer: text => text.slice(0, -2) + text.slice(-1).toUpperCase()
+  },
+  // class field names
+  {
+    pattern: /(?:^\s*)self\.\w+\s/,
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -1) + "_"
+  },
+  {
+    pattern: /(?:^\s*)self\.\w+_=/,
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -2) + " ="
+  },
   // TODO: variable name in for loop (snake)
-  // TODO: class name (pascal)
-  // TODO: class field (e.g. self.my_field = 42)
+  // TODO: variable name in list comprehension
+  // TODO: variable name in lambda expression
 ];
