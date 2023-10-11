@@ -1,27 +1,16 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { pythonPhrases } from './changelist/python';
+import { ConventionPhrase } from './types';
+import { update } from './util';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-type RegexTuple = [RegExp, string];
+// The extension is activated the very first time the command is executed
 
-const pythonChangeList: RegexTuple[] = [
-	[/print\((.*)\)/g, 'console.log($1)'],
-	// Add more Python-specific regex tuples here
-];
-
-const cChangeList: RegexTuple[] = [
-	[/\/\/(.*)/g, '/* $1 */'],
-	// Add more C-specific regex tuples here
-];
-
-const changeLists: { [key: string]: RegexTuple[] } = {
-	'py': pythonChangeList,
-	'c': cChangeList,
-	// Add more file extensions and their change lists here
+const phraseMap: { [key: string]: ConventionPhrase[] } = {
+	'py': pythonPhrases,
+	// TODO: Add more file extensions
 };
 
+// Called when the extension is activated
 export function activate(context: vscode.ExtensionContext) {
 	let disposable = vscode.workspace.onDidChangeTextDocument((event) => {
 		let editor = vscode.window.activeTextEditor;
@@ -29,27 +18,24 @@ export function activate(context: vscode.ExtensionContext) {
 			let document = editor.document;
 			let fileExtension = document.fileName.split('.').pop();
 
-			if (fileExtension && changeLists.hasOwnProperty(fileExtension)) {
+			if (fileExtension && phraseMap.hasOwnProperty(fileExtension)) {
 				let position = editor.selection.active;
 				let line = document.lineAt(position.line);
-				let lineText = line.text;
+				let leftText = line.text.substring(0, position.character + 1);
 
-				let updatedLineText = lineText;
-				for (const [findRegex, replaceWith] of changeLists[fileExtension]) {
-					updatedLineText = updatedLineText.replace(findRegex, replaceWith);
-				}
+				let updatedLeftText = update(phraseMap[fileExtension], leftText);
 
-				if (lineText !== updatedLineText) {
+				if (leftText !== updatedLeftText) {
 					editor.edit((editBuilder) => {
 						let range = new vscode.Range(
 							new vscode.Position(position.line, 0),
-							new vscode.Position(position.line, line.text.length)
+							new vscode.Position(position.line, position.character + 1)
 						);
-						editBuilder.replace(range, updatedLineText);
+						editBuilder.replace(range, updatedLeftText);
 					}).then(() => {
-						// Set the cursor to the beginning of the line
+						// Set the cursor to the rightmost position of `leftText`
 						if (editor) {
-							let newPosition = new vscode.Position(position.line, updatedLineText.length);
+							let newPosition = new vscode.Position(position.line, updatedLeftText.length);
 							editor.selection = new vscode.Selection(newPosition, newPosition);
 						}
 					});
@@ -61,5 +47,5 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
+// Called when the extension is deactivated
 export function deactivate() { }
