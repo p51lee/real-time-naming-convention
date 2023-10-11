@@ -3,6 +3,10 @@
   "displayName": "Real-Time Naming Convention",
   "description": "A helper for automatically follow the naming convention in real-time",
   "publisher": "KangUk Lee",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/p51lee/real-time-naming-convention"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.83.0"
