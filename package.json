@@ -1,7 +1,8 @@
 {
-  "name": "code-correction",
-  "displayName": "code-correction",
-  "description": "",
+  "name": "real-time-naming-convention",
+  "displayName": "Real-Time Naming Convention",
+  "description": "A helper for automatically follow the naming convention in real-time",
+  "publisher": "KangUk Lee",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.83.0"
