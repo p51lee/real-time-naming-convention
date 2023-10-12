@@ -1,5 +1,15 @@
 # Real-Time Naming Convention
 
+Developers often work with multiple programming languages, each with its own set
+of naming conventions. Manually adapting to each convention can be error-prone
+and time-consuming. This extension solves that problem for you.
+
+Simply type in a new variable name with spaces, like `new fancy name`, and this
+extension will automatically adapt it to the naming convention of the language
+you're working in: `new_fancy_name`, `newFancyName` or `NewFancyName`.
+
+## Usage (Python)
+
 Just type it like this:
 ```
 class some class:
@@ -24,12 +34,13 @@ def some_function(some_parameter, another_parameter):
 ## Supported Languages and Features
 * Python
   * `snake_case`
-    * variable names
-    * function names
-    * function parameter names
-    * class field names
+    * variable name
+    * variable name in for loop
+    * function name
+    * function parameter name
+    * class field name
   * `PascalCase`
-    * class names
+    * class name
 
 ## Extension Settings
 TODO
@@ -39,8 +50,10 @@ TODO
 Users appreciate release notes as you update your extension.
 
 ### 0.0.1
-
 Initial release, support limited naming convention of Python.
+
+### 0.0.2
+Support `for` loop in python and add test cases.
 
 ---
 
