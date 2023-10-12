@@ -31,6 +31,12 @@ def some_function(some_parameter, another_parameter):
   return
 ```
 
+## Note on Existing Names
+
+This extension is designed to assist you in creating **new** variable, function, or class names by automatically adapting them to the naming convention of the language you're working in. It will not modify names that are already defined in your codebase.
+
+For existing names, this extension is fully compatible with and encourages the use of VS Code's built-in autocompletion features. Simply start typing the name, and VS Code's autocompletion will help you complete it, without any interference from this extension.
+
 ## Supported Languages and Features
 * Python
   * `snake_case`
