@@ -1,12 +1,12 @@
 import * as vscode from 'vscode';
-import { pythonPhrases } from './changelist/python';
-import { ConventionPhrase } from './types';
+import { pythonRules } from './rules/python';
+import { Rule } from './types';
 import { update } from './util';
 
 // The extension is activated the very first time the command is executed
 
-const phraseMap: { [key: string]: ConventionPhrase[] } = {
-	'py': pythonPhrases,
+const phraseMap: { [key: string]: Rule[] } = {
+	'py': pythonRules,
 	// TODO: Add more file extensions
 };
 

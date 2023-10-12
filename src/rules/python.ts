@@ -1,10 +1,10 @@
-import { Convention, ConventionPhrase } from "../types";
+import { Convention, Rule } from "../types";
 
 const reservedWords = ['def', 'class', 'if', 'elif', 'else'];
 const excludePattern = `(?!(?:${reservedWords.join('|')})\\b)`;
 
 // naming convention helper only modifies declaration
-export const pythonPhrases: ConventionPhrase[] = [
+export const pythonRules: Rule[] = [
   // variable names (snake_case)
   {
     pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+)\\s`),
@@ -22,11 +22,21 @@ export const pythonPhrases: ConventionPhrase[] = [
     convention: Convention.snakeCase,
     replacer: text => text.slice(0, -1) + "_"
   },
+  {
+    pattern: /(?:^\s*)def\s\w+_\(/,
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -2) + " ("
+  },
   // function parameter names (snake_case)
   {
-    pattern: /(?:^\s*)def\s\w+\(\w*(?:,\s\w*)*\s/,
+    pattern: /(?:^\s*)def\s\w+\s?\(\s?\w*(?:\s?,\s\w*)*\s/,
     convention: Convention.snakeCase,
     replacer: text => text.slice(0, -1) + "_"
+  },
+  {
+    pattern: /(?:^\s*)def\s\w+\s?\(\s?\w*(?:\s?,\s\w+)*_,/,
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -2) + " ,"
   },
   // class names (PascalCase)
   {

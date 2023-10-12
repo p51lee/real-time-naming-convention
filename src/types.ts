@@ -4,7 +4,7 @@ export enum Convention {
   pascalCase
 }
 
-export type ConventionPhrase = {
+export type Rule = {
   pattern: RegExp
   convention: Convention;
   replacer: (substring: string, ...args: any[]) => string;
