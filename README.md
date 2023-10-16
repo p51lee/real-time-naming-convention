@@ -1,5 +1,13 @@
 # Real-Time Naming Convention
 
+<p align="center">
+  <img width="524" alt="image" src="https://github.com/p51lee/real-time-naming-convention/assets/68288688/2f8dc296-927b-48fc-892b-c2c9c6fb7d74">
+</p>
+
+
+
+
+
 Developers often work with multiple programming languages, each with its own set
 of naming conventions. Manually adapting to each convention can be error-prone
 and time-consuming. This extension solves that problem for you.
