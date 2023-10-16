@@ -26,6 +26,8 @@ class some class:
 
 def some function(some parameter, another parameter):
   some variable = 42
+  for some int in [1, 2, 3]:
+    print("Hello world!")
   return
 ```
 As soon as you type the above, you will get:
@@ -36,6 +38,8 @@ class SomeClass:
 
 def some_function(some_parameter, another_parameter):
   some_variable = 42
+  for some_int in [1, 2, 3]:
+    print("Hello world!")
   return
 ```
 
@@ -47,17 +51,90 @@ For existing names, this extension is fully compatible with and encourages the u
 
 ## Supported Languages and Features
 * Python
-  * `snake_case`
-    * variable name
-    * variable name in for loop
-    * function name
-    * function parameter name
-    * class field name
-  * `PascalCase`
-    * class name
+* TODO: C, Java, JavaScript ...
 
-## Extension Settings
-TODO
+
+## Python Naming Conventions and Syntax for Defining Names
+In Python, naming conventions play a critical role in enhancing code readability
+and maintainability. The naming of variables, functions, classes, and other
+entities must be consistent and self-explanatory. This section outlines the
+various syntactical locations where new names can be introduced in Python,
+accompanied by the naming conventions commonly adhered to.
+
+### Variable Assignments
+Use `snake_case` for variable names.
+```python
+variable_name = value
+```
+### Function Definitions
+Use `snake_case` for both the function name and its parameters.
+```python
+def function_name(param1, param2):
+    pass
+```
+### Class Definitions
+Use `PascalCase` for class names.
+```python
+class ClassName:
+    pass
+```
+### For Loops
+Use `snake_case` for loop variables.
+```python
+for item_name in iterable:
+    pass
+```
+### List Comprehensions
+Use `snake_case` for the loop variables.
+```python
+[ <expression> for item_name in iterable ]
+```
+### With statements
+Use `snake_case` for context variable names.
+```python
+with open("file.txt") as file_handle:
+    pass
+```
+### Except Clauses
+Use `snake_case` for exception variable names.
+```python
+try:
+    pass
+except Exception as error_name:
+    pass
+```
+### Lambda Function Parameters
+Use `snake_case` for the lambda function parameters
+```python
+lambda param_name: <expression>
+```
+### Class Attribute and Method Definitions
+Use `PascalCase` for class names, and `snake_case` for attribute and method names.
+```python
+class ClassName:
+    class_attribute = value
+
+    def method_name(self, param_name):
+        pass
+```
+### Global and Nonlocal Statements
+Use `snake_case` for the variable names
+```python
+global variable_name
+nonlocal variable_name
+```
+### Function Arguments
+Use `snake_case` for argument names.
+```python
+def func(arg_name):
+    pass
+```
+### Unpacking Assignments
+Use `snake_case` for all unpacked variable names.
+```python
+a, b, *rest = [1, 2, 3, 4, 5]
+```
+
 
 ## Release Notes
 
