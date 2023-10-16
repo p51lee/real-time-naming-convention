@@ -1,29 +1,43 @@
 import * as vscode from 'vscode';
+import * as fs from 'fs';
+import * as path from 'path';
 import { pythonRules } from './rules/python';
 import { Rule } from './types';
 import { update } from './util';
 
 // The extension is activated the very first time the command is executed
 
-const phraseMap: { [key: string]: Rule[] } = {
+const ruleMap: { [key: string]: Rule[] } = {
 	'py': pythonRules,
 	// TODO: Add more file extensions
 };
 
+let recordingStatusBarItem: vscode.StatusBarItem;
+let startTime: number | null = null;
+let totalCharacters = 0;
+let totalBackspaces = 0;
+let typerName = "";
+
+function createRecordingStatusBarItem(): vscode.StatusBarItem {
+	const item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+	item.text = `Recording...`;
+	return item;
+}
+
 // Called when the extension is activated
 export function activate(context: vscode.ExtensionContext) {
-	let disposable = vscode.workspace.onDidChangeTextDocument((event) => {
+	let textDisposable = vscode.workspace.onDidChangeTextDocument((event) => {
 		let editor = vscode.window.activeTextEditor;
 		if (editor) {
 			let document = editor.document;
 			let fileExtension = document.fileName.split('.').pop();
 
-			if (fileExtension && phraseMap.hasOwnProperty(fileExtension)) {
+			if (fileExtension && ruleMap.hasOwnProperty(fileExtension)) {
 				let position = editor.selection.active;
 				let line = document.lineAt(position.line);
 				let leftText = line.text.substring(0, position.character + 1);
 
-				let updatedLeftText = update(phraseMap[fileExtension], leftText);
+				let updatedLeftText = update(ruleMap[fileExtension], leftText);
 
 				if (leftText !== updatedLeftText) {
 					editor.edit((editBuilder) => {
@@ -44,8 +58,76 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
-	context.subscriptions.push(disposable);
+	let recordDisposable = vscode.commands.registerCommand('RTNC.record-rtnc', async () => {
+		totalCharacters = 0;
+		totalBackspaces = 0;
+		startTime = Date.now();
+
+		typerName = await vscode.window.showInputBox({ prompt: "Enter your name" }) || "Unknown";
+		typerName = typerName.replace(/[^a-zA-Z0-9]/g, "_");
+
+		const textChangeListener = vscode.workspace.onDidChangeTextDocument((event) => {
+			event.contentChanges.forEach((change) => {
+				totalCharacters += change.text.length;
+				if (change.text === "") {
+					totalBackspaces += change.rangeLength;
+				}
+			});
+		});
+		context.subscriptions.push(textChangeListener);
+
+		recordingStatusBarItem = createRecordingStatusBarItem();
+		recordingStatusBarItem.show();
+	});
+
+	let stopDisposable = vscode.commands.registerCommand('RTNC.stop-rtnc', () => {
+		const endTime = Date.now();
+		const elapsedTime = (endTime - (startTime || endTime)) / 1000;
+
+		const logData = {
+			typer: typerName,
+			elapsedTime: elapsedTime,
+			totalCharacters: totalCharacters,
+			totalBackspaces: totalBackspaces,
+		};
+
+		// Generate a unique filename
+		const filename = `${new Date().toISOString().replace(/[:.]/g, '-')}_${typerName}.json`;
+
+		// Get the path to the root directory of the current workspace
+		const workspacePath = vscode.workspace.workspaceFolders?.[0].uri.fsPath;
+
+		if (workspacePath) {
+			// Create the full path to the .vscode/logs directory
+			const logDirectoryPath = path.join(workspacePath, '.vscode', 'logs');
+
+			// Create the log directory if it doesn't exist
+			if (!fs.existsSync(logDirectoryPath)) {
+				fs.mkdirSync(logDirectoryPath, { recursive: true });
+			}
+
+			// Create the full path to the log file
+			const filePath = path.join(logDirectoryPath, filename);
+
+			// Write data to a JSON file
+			fs.writeFileSync(filePath, JSON.stringify(logData, null, 2));
+
+			// Show a message
+			vscode.window.showInformationMessage('Recording stopped and data saved.');
+		} else {
+			vscode.window.showErrorMessage('No workspace open');
+		}
+		recordingStatusBarItem.hide();
+	});
+
+
+
+	context.subscriptions.push(textDisposable);
+	context.subscriptions.push(recordDisposable);
+	context.subscriptions.push(stopDisposable);
 }
 
 // Called when the extension is deactivated
-export function deactivate() { }
+export function deactivate() {
+	recordingStatusBarItem.dispose();
+}

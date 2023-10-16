@@ -146,6 +146,9 @@ Initial release, support limited naming convention of Python.
 ### 0.0.2
 Support `for` loop in python and add test cases.
 
+### 0.0.3
+Support recording input statistics for research purposes.
+
 ---
 
 **Enjoy!**

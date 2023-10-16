@@ -2,12 +2,13 @@
   "name": "real-time-naming-convention",
   "displayName": "Real-Time Naming Convention",
   "description": "A helper for automatically follow the naming convention in real-time",
+  "icon": "images/icon.png",
   "publisher": "p51lee",
   "repository": {
     "type": "git",
     "url": "https://github.com/p51lee/real-time-naming-convention"
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.83.0"
   },
@@ -22,10 +23,47 @@
   "contributes": {
     "commands": [
       {
-        "command": "code-correction.helloWorld",
-        "title": "Hello World"
+        "command": "RTNC.record-rtnc",
+        "title": "Start Record (Real-Time Naming Convention)"
+      },
+      {
+        "command": "RTNC.stop-rtnc",
+        "title": "Stop Record (Real-Time Naming Convention)"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Real-Time Naming Convention",
+      "properties": {
+        "description": {},
+        "RTNC.python.variable": {
+          "type": "string",
+          "default": "snake_case",
+          "enum": [
+            "snake_case",
+            "camelCase",
+            "PascalCase"
+          ]
+        },
+        "RTNC.python.function": {
+          "type": "string",
+          "default": "snake_case",
+          "enum": [
+            "snake_case",
+            "camelCase",
+            "PascalCase"
+          ]
+        },
+        "RTNC.python.class": {
+          "type": "string",
+          "default": "PascalCase",
+          "enum": [
+            "snake_case",
+            "camelCase",
+            "PascalCase"
+          ]
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
