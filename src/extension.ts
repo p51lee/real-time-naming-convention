@@ -27,6 +27,8 @@ function createRecordingStatusBarItem(): vscode.StatusBarItem {
 	return item;
 }
 
+let inputLog: string = "";
+
 // Called when the extension is activated
 export function activate(context: vscode.ExtensionContext) {
 	let textDisposable = vscode.workspace.onDidChangeTextDocument((event) => {
@@ -71,6 +73,7 @@ export function activate(context: vscode.ExtensionContext) {
 		totalCharacters = 0;
 		totalBackspaces = 0;
 		startTime = Date.now();
+		inputLog = "";
 
 		typerName = await vscode.window.showInputBox({ prompt: "Enter your name" }) || "Unknown";
 		typerName = typerName.replace(/[^a-zA-Z0-9]/g, "_");
@@ -80,6 +83,9 @@ export function activate(context: vscode.ExtensionContext) {
 				totalCharacters += change.text.length;
 				if (change.text === "") {
 					totalBackspaces += change.rangeLength;
+					inputLog += "\b".repeat(change.rangeLength);
+				} else {
+					inputLog += change.text;
 				}
 			});
 		});
@@ -110,6 +116,7 @@ export function activate(context: vscode.ExtensionContext) {
 			elapsedTime: elapsedTime,
 			totalCharacters: totalCharacters,
 			totalBackspaces: totalBackspaces,
+			totalInputLog: inputLog,
 		};
 
 		// Generate a unique filename
