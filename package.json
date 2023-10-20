@@ -24,11 +24,11 @@
     "commands": [
       {
         "command": "RTNC.record-rtnc",
-        "title": "Start Record (Real-Time Naming Convention)"
+        "title": "Start Recording (Real-Time Naming Convention)"
       },
       {
         "command": "RTNC.stop-rtnc",
-        "title": "Stop Record (Real-Time Naming Convention)"
+        "title": "Stop Recording (Real-Time Naming Convention)"
       }
     ],
     "configuration": {

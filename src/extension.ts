@@ -18,9 +18,12 @@ let totalCharacters = 0;
 let totalBackspaces = 0;
 let typerName = "";
 
+let intervalId: NodeJS.Timeout | null = null;
+let isRecording = false;
+
 function createRecordingStatusBarItem(): vscode.StatusBarItem {
 	const item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-	item.text = `Recording...`;
+	item.text = `Now recording...`;
 	return item;
 }
 
@@ -59,6 +62,12 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	let recordDisposable = vscode.commands.registerCommand('RTNC.record-rtnc', async () => {
+		if (isRecording) {
+			vscode.window.showErrorMessage('Recording is already in progress');
+			return;
+		}
+		isRecording = true;
+
 		totalCharacters = 0;
 		totalBackspaces = 0;
 		startTime = Date.now();
@@ -78,9 +87,21 @@ export function activate(context: vscode.ExtensionContext) {
 
 		recordingStatusBarItem = createRecordingStatusBarItem();
 		recordingStatusBarItem.show();
+
+		// Start the timer
+		intervalId = setInterval(() => {
+			const elapsedTime = (Date.now() - (startTime || Date.now())) / 1000;
+			recordingStatusBarItem.text = `Now recording... ${elapsedTime.toFixed(0)}s`;
+		}, 1000);
 	});
 
 	let stopDisposable = vscode.commands.registerCommand('RTNC.stop-rtnc', () => {
+		if (!isRecording) {
+			vscode.window.showErrorMessage('No recording is in progress');
+			return;
+		}
+		isRecording = false;
+
 		const endTime = Date.now();
 		const elapsedTime = (endTime - (startTime || endTime)) / 1000;
 
@@ -118,13 +139,17 @@ export function activate(context: vscode.ExtensionContext) {
 			vscode.window.showErrorMessage('No workspace open');
 		}
 		recordingStatusBarItem.hide();
+
+		// Stop the timer
+		if (intervalId) {
+			clearInterval(intervalId);
+		}
+
 	});
 
 
 
-	context.subscriptions.push(textDisposable);
-	context.subscriptions.push(recordDisposable);
-	context.subscriptions.push(stopDisposable);
+	context.subscriptions.push(textDisposable, recordDisposable, stopDisposable);
 }
 
 // Called when the extension is deactivated
