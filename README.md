@@ -89,9 +89,11 @@ Use `snake_case` for the loop variables.
 ```python
 [ <expression> for item_name in iterable ]
 ```
-### With statements
+### With / Import statements
 Use `snake_case` for context variable names.
 ```python
+from module import entity as entitiy_name
+
 with open("file.txt") as file_handle:
     pass
 ```
@@ -126,13 +128,13 @@ nonlocal variable_name
 ### Function Arguments
 Use `snake_case` for argument names.
 ```python
-def func(arg_name):
+def func_name(arg_name):
     pass
 ```
 ### Unpacking Assignments
 Use `snake_case` for all unpacked variable names.
 ```python
-a, b, *rest = [1, 2, 3, 4, 5]
+u_a, u_b, *u_rest = [1, 2, 3, 4, 5]
 ```
 
 
