@@ -114,7 +114,27 @@ export const pythonRules: Rule[] = [
     replacer: text => text.slice(0, -2) + " ="
   },
 
-  // TODO: Global and Nonlocal Statements (snake_case)
+  // Global and Nonlocal Statements (snake_case)
+  {
+    pattern: /\bglobal\s+\w*(?:\s?,\s\w*)*\s/,
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -1) + "_"
+  },
+  {
+    pattern: /\bglobal\s+\w*(?:\s?,\s\w+)*_,/,
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -2) + " ,"
+  },
+  {
+    pattern: /\bnonlocal\s+\w*(?:\s?,\s\w*)*\s/,
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -1) + "_"
+  },
+  {
+    pattern: /\bnonlocal\s+\w*(?:\s?,\s\w+)*_,/,
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -2) + " ,"
+  },
 
   // Function Parameter (snake_case)
   {
