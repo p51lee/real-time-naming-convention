@@ -73,7 +73,7 @@ export const pythonRules: Rule[] = [
     replacer: text => text.slice(0, -3) + " in"
   },
 
-  // With / Import Statements
+  // With / Import / Except Statements
   {
     pattern: /\sas\s\w*\s/,
     convention: Convention.snakeCase,
@@ -85,9 +85,17 @@ export const pythonRules: Rule[] = [
     replacer: text => text.slice(0, -3) + " :"
   },
 
-  // TODO: Except Clauses
-
   // TODO: Lambda Function Parameters
+  {
+    pattern: /\blambda\s+\w*(?:\s?,\s\w*)*\s/,
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -1) + "_"
+  },
+  {
+    pattern: /\blambda\s+\w*(?:\s?,\s\w+)*_,/,
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -2) + " ,"
+  },
 
   // Class Attributes (snake_case)
   {

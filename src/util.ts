@@ -4,7 +4,8 @@ import { pythonRules } from "./rules/python";
 export function update(phrases: Rule[], text: string): string {
   let updatedText = text;
   for (const phrase of phrases) {
-    updatedText = updatedText.replace(phrase.pattern, phrase.replacer);
+    const anchoredPattern = new RegExp(phrase.pattern.source + "$");
+    updatedText = updatedText.replace(anchoredPattern, phrase.replacer);
   }
   return updatedText;
 }
