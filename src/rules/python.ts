@@ -85,7 +85,7 @@ export const pythonRules: Rule[] = [
     replacer: text => text.slice(0, -3) + " :"
   },
 
-  // TODO: Lambda Function Parameters
+  // Lambda Function Parameters
   {
     pattern: /\blambda\s+\w*(?:\s?,\s\w*)*\s/,
     convention: Convention.snakeCase,
@@ -95,6 +95,11 @@ export const pythonRules: Rule[] = [
     pattern: /\blambda\s+\w*(?:\s?,\s\w+)*_,/,
     convention: Convention.snakeCase,
     replacer: text => text.slice(0, -2) + " ,"
+  },
+  {
+    pattern: /\blambda\s+\w*(?:\s?,\s\w+)*_:/,
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -2) + " :"
   },
 
   // Class Attributes (snake_case)
