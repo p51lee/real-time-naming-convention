@@ -42,6 +42,11 @@ export function activate(context: vscode.ExtensionContext) {
 				let line = document.lineAt(position.line);
 				let leftText = line.text.substring(0, position.character + 1);
 
+				// check if the change was a deletion
+				let isDeletion = event.contentChanges.some((change) => change.text === "");
+
+				if (isDeletion) { return; }
+
 				let updatedLeftText = update(ruleMap[fileExtension], leftText);
 
 				if (leftText !== updatedLeftText) {
