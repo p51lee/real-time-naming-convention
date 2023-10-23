@@ -151,6 +151,10 @@ Support `for` loop in python and add test cases.
 ### 0.0.3
 Support recording input statistics for research purposes.
 
+### 0.1.0
+* Supports full python grammar
+* More powerful input recordings (reserach purpose)
+
 ---
 
 **Enjoy!**
