@@ -2,6 +2,7 @@
 
 ## Before test
 
+- Before the test, Thank you for helping our VSC extension project. We really appreciate your contribution.
 - Please install the vscode extension **Real-Time Naming Convention** by KangUk Lee.
 
 ## Test
