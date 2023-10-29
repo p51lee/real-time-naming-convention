@@ -24,6 +24,26 @@ export const pythonRules: Rule[] = [
     convention: Convention.snakeCase,
     replacer: text => text.slice(0, -2) + " ="
   },
+  {
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+)_\\+=`),
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -3) + " +="
+  },
+  {
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+)_-=`),
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -3) + " -="
+  },
+  {
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+)_\\*=`),
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -3) + " *="
+  },
+  {
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+)_\\/=`),
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -3) + " /="
+  },
 
   // Function and Method Definitions (snake_case)
   {
@@ -112,6 +132,26 @@ export const pythonRules: Rule[] = [
     pattern: /(?:^\s*)self\.\w+_=/,
     convention: Convention.snakeCase,
     replacer: text => text.slice(0, -2) + " ="
+  },
+  {
+    pattern: /(?:^\s*)self\.\w+_\+=/,
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -3) + " +="
+  },
+  {
+    pattern: /(?:^\s*)self\.\w+_-=/,
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -3) + " -="
+  },
+  {
+    pattern: /(?:^\s*)self\.\w+_\*=/,
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -3) + " *="
+  },
+  {
+    pattern: /(?:^\s*)self\.\w+_\/=/,
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -3) + " /="
   },
 
   // Global and Nonlocal Statements (snake_case)
