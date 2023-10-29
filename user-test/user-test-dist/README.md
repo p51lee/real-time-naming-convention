@@ -12,7 +12,7 @@ Before the test, Thank you for helping our VSC extension project. We really appr
 
 1. Enter Ctrl+Shift+P to open the command palette.
 2. Find **_Start Recording (Real-Time Naming Convention)_** and enter to the keyboard input recording mode.
-3. Copy the whole code "sample.py" to your "test.py" file by manually typing the codes.
+3. Type the whole code "sample.py" to your "test.py" file (Do not copy-paste sample.py).
 4. Find **_Stop Recording (Real-Time Naming Convention)_** and escape from the keyboard input recording mode.
 5. Compress your file as zip file: **_the keyboard recording log file_** and **_test.py_**
 6. Please send your zip file to jwna1885@kaist.ac.kr
