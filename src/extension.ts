@@ -49,7 +49,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 				let updatedLeftText = update(ruleMap[fileExtension], leftText);
 
-				if (leftText !== updatedLeftText) {
+				if (leftText !== updatedLeftText && !isRecording) {
 					editor.edit((editBuilder) => {
 						let range = new vscode.Range(
 							new vscode.Position(position.line, 0),
