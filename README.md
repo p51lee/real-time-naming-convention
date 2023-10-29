@@ -155,6 +155,9 @@ Support recording input statistics for research purposes.
 * Supports full Python grammar
 * More powerful input recordings (for research purposes)
 
+### 0.1.1
+Fix Python assignment patterns
+No auto correction while recording
 ---
 
 **Enjoy!**
