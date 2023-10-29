@@ -1,8 +1,11 @@
 # Real Time Naming Convention User Test
 
+This test is for developing VSC extension for better typing of programmers using VS Code.
+
+Before the test, Thank you for helping our VSC extension project. We really appreciate your contribution.
+
 ## Before test
 
-- Before the test, Thank you for helping our VSC extension project. We really appreciate your contribution.
 - Please install the vscode extension **Real-Time Naming Convention** by KangUk Lee.
 
 ## Test
