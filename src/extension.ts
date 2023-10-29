@@ -68,6 +68,19 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
+	const textChangeListener = vscode.workspace.onDidChangeTextDocument((event) => {
+		event.contentChanges.forEach((change) => {
+			totalCharacters += change.text.length;
+			if (change.text === "") {
+				totalBackspaces += change.rangeLength;
+				inputLog += "\b".repeat(change.rangeLength);
+			} else {
+				inputLog += change.text;
+			}
+		});
+	});
+	context.subscriptions.push(textChangeListener);
+
 	let recordDisposable = vscode.commands.registerCommand('RTNC.record-rtnc', async () => {
 		if (isRecording) {
 			vscode.window.showErrorMessage('Recording is already in progress');
@@ -83,18 +96,6 @@ export function activate(context: vscode.ExtensionContext) {
 		typerName = await vscode.window.showInputBox({ prompt: "Enter your name" }) || "Unknown";
 		typerName = typerName.replace(/[^a-zA-Z0-9]/g, "_");
 
-		const textChangeListener = vscode.workspace.onDidChangeTextDocument((event) => {
-			event.contentChanges.forEach((change) => {
-				totalCharacters += change.text.length;
-				if (change.text === "") {
-					totalBackspaces += change.rangeLength;
-					inputLog += "\b".repeat(change.rangeLength);
-				} else {
-					inputLog += change.text;
-				}
-			});
-		});
-		context.subscriptions.push(textChangeListener);
 
 		recordingStatusBarItem = createRecordingStatusBarItem();
 		recordingStatusBarItem.show();
