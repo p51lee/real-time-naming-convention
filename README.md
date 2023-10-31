@@ -137,24 +137,28 @@ u_a, u_b, *u_rest = [1, 2, 3, 4, 5]
 Users appreciate release notes as you update your extension.
 
 ### 0.0.1
-Initial release, support limited naming convention of Python.
+* Initial release, support limited naming convention of Python.
 
 ### 0.0.2
-Support `for` loop in python and add test cases.
+* Support `for` loop in python and add test cases.
 
 ### 0.0.3
-Support recording input statistics for research purposes.
+* Support recording input statistics for research purposes.
 
 ### 0.1.0
 * Supports full Python grammar
 * More powerful input recordings (for research purposes)
 
 ### 0.1.1
-Fix Python assignment patterns
-No auto correction while recording
+* Fix Python assignment patterns
+* No auto correction while recording
 
 ### 0.1.2
-Fix duplicate recording disposable
+* Fix duplicate recording disposable
+
+### 0.1.3
+* Add Python unpacking patterns
+* Add demo GIF in readme.md
 ---
 
 **Enjoy!**

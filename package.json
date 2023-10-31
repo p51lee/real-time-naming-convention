@@ -1,14 +1,14 @@
 {
   "name": "real-time-naming-convention",
   "displayName": "Real-Time Naming Convention",
-  "description": "A helper for automatically follow the naming convention in real-time",
+  "description": "A helper for automatically following the naming convention in real-time",
   "icon": "images/icon.png",
   "publisher": "p51lee",
   "repository": {
     "type": "git",
     "url": "https://github.com/p51lee/real-time-naming-convention"
   },
-  "version": "0.1.2",
+  "version": "0.1.3",
   "engines": {
     "vscode": "^1.83.0"
   },
