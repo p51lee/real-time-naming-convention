@@ -6,9 +6,10 @@ from random import randint as random_integer_generator
 MAXIMUM_VALUE = 100
 MINIMUM_VALUE = 1
 
+
 # Class definition
 class SimpleCalculatorClass:
-    class_attribute_value = "I am a class attribute"
+    attribute_value = "I am a class attribute"
 
     def __init__(self, initial_value_param=0):
         self.current_value_attr = initial_value_param  # Instance attribute
@@ -19,15 +20,19 @@ class SimpleCalculatorClass:
     def subtract_value(self, value_to_subtract_param):
         self.current_value_attr -= value_to_subtract_param
 
+
 # Function definitions
 def calculate_square_root(input_value):  # Function definition with parameter
     return math_library.sqrt(input_value)
 
+
 def generate_random_value():
     return random_integer_generator(MINIMUM_VALUE, MAXIMUM_VALUE)
 
+
 # Lambda function
 square_function = lambda input_value: input_value * input_value
+
 
 def main_function():
     # Variable declarations
@@ -53,22 +58,22 @@ def main_function():
     print(f"Generated random number: {random_number_value}")
 
     # For loop
-    for loop_index in range(5):
-        print(f"Loop iteration {loop_index}")
+    for loop_idx in range(5):
+        print(loop_idx)
 
     # List comprehension
     square_values_list = [square_function(item_value) for item_value in range(5)]
     print(f"Squares: {square_values_list}")
 
     # With statement
-    with open("example_file.txt", "w") as file_handle_var:
-        file_handle_var.write("Hello, world!")
+    with open("example.txt", "w") as file_handler:
+        file_handler.write("Hello, world!")
 
     # Try-except block
     try:
         division_result = 10 / 0
-    except ZeroDivisionError as error_instance:
-        print(f"Caught an exception: {error_instance}")
+    except ZeroDivisionError as div_error:
+        print(div_error)
 
     # Global and nonlocal statements
     global MAXIMUM_VALUE
@@ -89,6 +94,7 @@ def main_function():
     # Unpacking assignment
     unpacked_a, unpacked_b, *unpacked_rest = [1, 2, 3, 4, 5]
     print(f"Unpacked: {unpacked_a}, {unpacked_b}, {unpacked_rest}")
+
 
 if __name__ == "__main__":
     main_function()
