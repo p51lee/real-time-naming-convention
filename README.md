@@ -1,12 +1,6 @@
 # Real-Time Naming Convention
 
-<p align="center">
-  <img width="524" alt="image" src="https://github.com/p51lee/real-time-naming-convention/assets/68288688/2f8dc296-927b-48fc-892b-c2c9c6fb7d74">
-</p>
-
-
-
-
+![](./images/demo.gif)
 
 Developers often work with multiple programming languages, each with its own set
 of naming conventions. Manually adapting to each convention can be error-prone
@@ -158,6 +152,9 @@ Support recording input statistics for research purposes.
 ### 0.1.1
 Fix Python assignment patterns
 No auto correction while recording
+
+### 0.1.2
+Fix duplicate recording disposable
 ---
 
 **Enjoy!**
