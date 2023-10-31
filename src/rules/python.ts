@@ -24,6 +24,11 @@ export const pythonRules: Rule[] = [
     convention: Convention.snakeCase,
     replacer: text => text.slice(0, -2) + " ="
   },
+  { // for user's weird coding method
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+)_-`),
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -2) + " ="
+  },
   {
     pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+)_\\+=`),
     convention: Convention.snakeCase,
@@ -45,6 +50,23 @@ export const pythonRules: Rule[] = [
     replacer: text => text.slice(0, -3) + " /="
   },
 
+  // TODO: Unpacking Assignments (snake_case)
+  {
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+(?:\\s?,\\s\\*?\\w*)*)\\s`),
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -1) + "_"
+  },
+  {
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+(?:\\s?,\\s\\w+)*)_,`),
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -2) + " ,"
+  },
+  {
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+(?:\\s?,\\s\\*?\\w*)*)_=`),
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -2) + " ="
+  },
+
   // Function and Method Definitions (snake_case)
   {
     pattern: /(?:^\s*)def\s\w*\s/,
@@ -52,7 +74,7 @@ export const pythonRules: Rule[] = [
     replacer: text => text.slice(0, -1) + "_"
   },
   {
-    pattern: /(?:^\s*)def\s\w+_\(/,
+    pattern: /(?:^\s*)def\s\w*[a-zA-Z0-9]_\(/,
     convention: Convention.snakeCase,
     replacer: text => text.slice(0, -2) + " ("
   },
@@ -75,7 +97,7 @@ export const pythonRules: Rule[] = [
     convention: Convention.snakeCase,
     replacer: text => text.slice(0, -1) + "_"
   },
-  {
+  {  // TODO: Using "index" as a name
     pattern: /(?:^\s*)for\s\w+_in/,
     convention: Convention.snakeCase,
     replacer: text => text.slice(0, -3) + " in"
@@ -83,12 +105,12 @@ export const pythonRules: Rule[] = [
 
   // List Comprehensions
   {
-    pattern: /\sfor\s\w*\s/,
+    pattern: /[\[\s]for\s\w*\s/,
     convention: Convention.snakeCase,
     replacer: text => text.slice(0, -1) + "_"
   },
   {
-    pattern: /\sfor\s\w+_in/,
+    pattern: /[\[\s]for\s\w+_in/,
     convention: Convention.snakeCase,
     replacer: text => text.slice(0, -3) + " in"
   },
@@ -186,5 +208,10 @@ export const pythonRules: Rule[] = [
     pattern: /(?:^\s*)def\s\w+\s?\(\s?\w*(?:\s?,\s\w+)*_,/,
     convention: Convention.snakeCase,
     replacer: text => text.slice(0, -2) + " ,"
+  },
+  {
+    pattern: /(?:^\s*)def\s\w+\s?\(\s?\w*(?:\s?,\s\w+)*_=/,
+    convention: Convention.snakeCase,
+    replacer: text => text.slice(0, -2) + " ="
   },
 ];
