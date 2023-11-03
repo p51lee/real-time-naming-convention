@@ -61,10 +61,6 @@ def main_function():
     for loop_idx in range(5):
         print(loop_idx)
 
-    # List comprehension
-    square_values_list = [square_function(item_value) for item_value in range(5)]
-    print(f"Squares: {square_values_list}")
-
     # With statement
     with open("example.txt", "w") as file_handler:
         file_handler.write("Hello, world!")
