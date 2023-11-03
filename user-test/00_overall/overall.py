@@ -37,25 +37,18 @@ square_function = lambda input_value: input_value * input_value
 def main_function():
     # Variable declarations
     first_number_var = 10
-    second_number_var = 20
-    third_number_var = 30
 
     # Object instantiation
     calculator_object = SimpleCalculatorClass(first_number_var)
 
     # Method calls
     calculator_object.add_value(second_number_var)
-    print(f"After addition: {calculator_object.current_value_attr}")
 
     calculator_object.subtract_value(third_number_var)
-    print(f"After subtraction: {calculator_object.current_value_attr}")
 
     # Function calls
     square_root_value = calculate_square_root(first_number_var)
-    print(f"Square root of {first_number_var} is {square_root_value}")
-
     random_number_value = generate_random_value()
-    print(f"Generated random number: {random_number_value}")
 
     # For loop
     for loop_idx in range(5):
@@ -71,10 +64,6 @@ def main_function():
     except ZeroDivisionError as div_error:
         print(div_error)
 
-    # Global and nonlocal statements
-    global MAXIMUM_VALUE
-    MAXIMUM_VALUE = 101
-
     def inner_function_scope():
         nonlocal first_number_var
         first_number_var = 11
@@ -83,14 +72,7 @@ def main_function():
 
     # Function with argument
     def print_argument_value(argument_value_param):
-        print(f"Argument value: {argument_value_param}")
-
-    print_argument_value("Test Argument")
+        print(argument_value_param)
 
     # Unpacking assignment
     unpacked_a, unpacked_b, *unpacked_rest = [1, 2, 3, 4, 5]
-    print(f"Unpacked: {unpacked_a}, {unpacked_b}, {unpacked_rest}")
-
-
-if __name__ == "__main__":
-    main_function()
