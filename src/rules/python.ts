@@ -176,6 +176,21 @@ export const snakeRules: Rule[] = [
 
 // naming convention helper only modifies declaration
 export const pythonRules: Rule[] = [
+  // apply snake_case with reserved words
+  {
+    pattern: new RegExp(`(${excludePattern})\\s(\\w+\\s?)=`),
+    convention: Convention.snakeCase,
+    replacer: text => {
+      let replacePattern = new RegExp(`((?:^\\s*)${excludePattern})\\s(\\w+\\s?)=`);
+      let updatedText = text.replace(replacePattern, (match, p1, p2) => {
+        return `${p1}_${p2}=`;
+      });
+      updatedText = updatedText.replace(/([a-z])([A-Z])/g, (match, lowerCaseLetter, upperCaseLetter) => {
+        return `${lowerCaseLetter}_${upperCaseLetter.toLowerCase()}`;
+      });
+      return updatedText.toLowerCase();
+    }
+  },
   // Variable Assignments (snake_case)
   {
     pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+)\\s`),
