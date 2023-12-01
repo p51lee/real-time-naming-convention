@@ -16,8 +16,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onLanguage:python",
-    "onLanguage:c"
+    "onLanguage:python"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -34,33 +33,10 @@
     "configuration": {
       "title": "Real-Time Naming Convention",
       "properties": {
-        "description": {},
-        "RTNC.python.variable": {
-          "type": "string",
-          "default": "snake_case",
-          "enum": [
-            "snake_case",
-            "camelCase",
-            "PascalCase"
-          ]
-        },
-        "RTNC.python.function": {
-          "type": "string",
-          "default": "snake_case",
-          "enum": [
-            "snake_case",
-            "camelCase",
-            "PascalCase"
-          ]
-        },
-        "RTNC.python.class": {
-          "type": "string",
-          "default": "PascalCase",
-          "enum": [
-            "snake_case",
-            "camelCase",
-            "PascalCase"
-          ]
+        "RTNC.showPreview": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show a gray preview '_' when a text modification is about to be applied."
         }
       }
     }

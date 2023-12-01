@@ -1,16 +1,35 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import { pythonRules } from './rules/python';
+import { pythonRules, pascalRules, snakeRules } from './rules/python';
 import { Rule } from './types';
-import { update } from './util';
+import { update, check } from './util';
 
 // The extension is activated the very first time the command is executed
 
+const pascalRuleMap: { [key: string]: Rule[] } = {
+	'py': pascalRules,
+};
+
+const snakeRuleMap: { [key: string]: Rule[] } = {
+	'py': snakeRules,
+};
+
 const ruleMap: { [key: string]: Rule[] } = {
 	'py': pythonRules,
-	// TODO: Add more file extensions
 };
+
+const snakePreviewDecorationType = vscode.window.createTextEditorDecorationType({
+	after: {
+		contentText: '🐍',
+	}
+});
+
+const pascalPreviewDecorationType = vscode.window.createTextEditorDecorationType({
+	after: {
+		contentText: '🐫',
+	}
+});
 
 let recordingStatusBarItem: vscode.StatusBarItem;
 let startTime: number | null = null;
@@ -36,11 +55,23 @@ export function activate(context: vscode.ExtensionContext) {
 		if (editor) {
 			let document = editor.document;
 			let fileExtension = document.fileName.split('.').pop();
+			let showPreview = vscode.workspace.getConfiguration('RTNC').get('showPreview');
 
 			if (fileExtension && ruleMap.hasOwnProperty(fileExtension)) {
+
 				let position = editor.selection.active;
 				let line = document.lineAt(position.line);
 				let leftText = line.text.substring(0, position.character + 1);
+
+				const newPosition = position.translate(0, 1);
+				if (showPreview && check(snakeRuleMap[fileExtension], leftText)) {
+					editor.setDecorations(snakePreviewDecorationType, [new vscode.Range(newPosition, newPosition)]);
+				} else if (showPreview && check(pascalRuleMap[fileExtension], leftText)) {
+					editor.setDecorations(pascalPreviewDecorationType, [new vscode.Range(newPosition, newPosition)]);
+				} else {
+					editor.setDecorations(snakePreviewDecorationType, []);
+					editor.setDecorations(pascalPreviewDecorationType, []);
+				}
 
 				// check if the change was a deletion
 				let isDeletion = event.contentChanges.some((change) => change.text === "");

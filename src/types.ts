@@ -9,8 +9,3 @@ export type Rule = {
   convention: Convention;
   replacer: (substring: string, ...args: any[]) => string;
 };
-
-// export type UpdateOutput = {
-//   updatedText: string;
-//   updatedPos: number;
-// };

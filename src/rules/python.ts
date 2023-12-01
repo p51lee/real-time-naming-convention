@@ -11,6 +11,169 @@ const reservedWords: string[] = [
 ];
 const excludePattern = `(?!(?:${reservedWords.join('|')})\\b)`;
 
+export const pascalRules: Rule[] = [
+  // Class Definitions (PascalCase)
+  {
+    pattern: /(?:^\s*)class\s/,
+    convention: Convention.pascalCase,
+    replacer: text => text
+  },
+  {
+    pattern: /(?:^\s*)class\s\w+/,
+    convention: Convention.pascalCase,
+    replacer: text => text
+  },
+  {
+    pattern: /(?:^\s*)class\s\w+\s/,
+    convention: Convention.pascalCase,
+    replacer: text => text
+  },
+];
+
+export const snakeRules: Rule[] = [
+  // Variable Assignments (snake_case)
+  {
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+)`),
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+  {
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+)_`),
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+  { // for user's weird coding method
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+)_`),
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+  {
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+)_\\+`),
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+  {
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+)_-`),
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+  {
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+)_\\*`),
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+  {
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+)_\\/`),
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+
+  // Unpacking Assignments (snake_case)
+  {
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+(?:\\s?,\\s\\*?\\w*)*)`),
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+  {
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+(?:\\s?,\\s\\w+)*)_`),
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+  {
+    pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+(?:\\s?,\\s\\*?\\w*)*)_`),
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+
+  // Function and Method Definitions (snake_case)
+  {
+    pattern: /(?:^\s*)def\s\w*/,
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+  {
+    pattern: /(?:^\s*)def\s\w*[a-zA-Z0-9]_/,
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+
+  // For Loops
+  {
+    pattern: /(?:^\s*)for\s\w*/,
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+
+  // List Comprehensions
+  {
+    pattern: /[\[\s]for\s\w*/,
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+
+  // With / Import / Except Statements
+  {
+    pattern: /\sas\s\w*/,
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+
+  // Lambda Function Parameters
+  {
+    pattern: /\blambda\s+\w*(?:\s?,\s\w*)*/,
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+
+  // Class Attributes (snake_case)
+  {
+    pattern: /(?:^\s*)self\.\w+/,
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+  {
+    pattern: /(?:^\s*)self\.\w+_\+/,
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+  {
+    pattern: /(?:^\s*)self\.\w+_-/,
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+  {
+    pattern: /(?:^\s*)self\.\w+_\*/,
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+  {
+    pattern: /(?:^\s*)self\.\w+_\//,
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+
+  // Global and Nonlocal Statements (snake_case)
+  {
+    pattern: /\bglobal\s+\w*(?:\s?,\s\w*)*/,
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+  {
+    pattern: /\bnonlocal\s+\w*(?:\s?,\s\w*)*/,
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+
+  // Function Parameter (snake_case)
+  {
+    pattern: /(?:^\s*)def\s\w+\s?\(\s?\w*(?:\s?,\s\w*)*/,
+    convention: Convention.snakeCase,
+    replacer: text => text
+  },
+];
+
+
+
 // naming convention helper only modifies declaration
 export const pythonRules: Rule[] = [
   // Variable Assignments (snake_case)
@@ -50,7 +213,7 @@ export const pythonRules: Rule[] = [
     replacer: text => text.slice(0, -3) + " /="
   },
 
-  // TODO: Unpacking Assignments (snake_case)
+  // Unpacking Assignments (snake_case)
   {
     pattern: RegExp(`((?:^\\s*)${excludePattern}\\w+(?:\\s?,\\s\\*?\\w*)*)\\s`),
     convention: Convention.snakeCase,
