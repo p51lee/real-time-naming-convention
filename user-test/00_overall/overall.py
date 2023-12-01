@@ -41,11 +41,6 @@ def main_function():
     # Object instantiation
     calculator_object = SimpleCalculatorClass(first_number_var)
 
-    # Method calls
-    calculator_object.add_value(second_number_var)
-
-    calculator_object.subtract_value(third_number_var)
-
     # Function calls
     square_root_value = calculate_square_root(first_number_var)
     random_number_value = generate_random_value()
