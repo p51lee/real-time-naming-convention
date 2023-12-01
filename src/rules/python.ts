@@ -11,7 +11,7 @@ const reservedWords: string[] = [
 ];
 const excludePattern = `(?!(?:${reservedWords.join('|')})\\b)`;
 
-export const pascalRules: Rule[] = [
+export const camelRules: Rule[] = [
   // Class Definitions (PascalCase)
   {
     pattern: /(?:^\s*)class\s/,

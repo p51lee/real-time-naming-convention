@@ -33,10 +33,15 @@
     "configuration": {
       "title": "Real-Time Naming Convention",
       "properties": {
-        "RTNC.showPreview": {
+        "RTNC.showIcon": {
           "type": "boolean",
           "default": true,
-          "description": "Show a gray preview '_' when a text modification is about to be applied."
+          "description": "Show an icon (🐍 for snake case or 🐫 for camel case) when a text modification is about to be applied."
+        },
+        "RTNC.showLine": {
+          "type": "boolean",
+          "default": true,
+          "description": "Highlight current line (in green for snake case or in yellow for camel case) when a text modification is about to be applied."
         }
       }
     }

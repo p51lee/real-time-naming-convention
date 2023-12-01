@@ -1,14 +1,14 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import { pythonRules, pascalRules, snakeRules } from './rules/python';
+import { pythonRules, camelRules, snakeRules } from './rules/python';
 import { Rule } from './types';
 import { update, check } from './util';
 
 // The extension is activated the very first time the command is executed
 
-const pascalRuleMap: { [key: string]: Rule[] } = {
-	'py': pascalRules,
+const camelRuleMap: { [key: string]: Rule[] } = {
+	'py': camelRules,
 };
 
 const snakeRuleMap: { [key: string]: Rule[] } = {
@@ -25,10 +25,22 @@ const snakePreviewDecorationType = vscode.window.createTextEditorDecorationType(
 	}
 });
 
-const pascalPreviewDecorationType = vscode.window.createTextEditorDecorationType({
+const camelPreviewDecorationType = vscode.window.createTextEditorDecorationType({
 	after: {
 		contentText: '🐫',
 	}
+});
+
+const snakeLineDecorationType = vscode.window.createTextEditorDecorationType({
+	// greenish
+	backgroundColor: 'rgba(144, 238, 144, 0.2)', // Light green color
+	isWholeLine: true,
+});
+
+const pascalLineDecorationType = vscode.window.createTextEditorDecorationType({
+	// yellowish
+	backgroundColor: 'rgba(255, 255, 224, 0.2)', // Light yellow color
+	isWholeLine: true,
 });
 
 let recordingStatusBarItem: vscode.StatusBarItem;
@@ -55,7 +67,8 @@ export function activate(context: vscode.ExtensionContext) {
 		if (editor) {
 			let document = editor.document;
 			let fileExtension = document.fileName.split('.').pop();
-			let showPreview = vscode.workspace.getConfiguration('RTNC').get('showPreview');
+			let showIcon = vscode.workspace.getConfiguration('RTNC').get('showIcon');
+			let showLine = vscode.workspace.getConfiguration('RTNC').get('showLine');
 
 			if (fileExtension && ruleMap.hasOwnProperty(fileExtension)) {
 
@@ -63,18 +76,32 @@ export function activate(context: vscode.ExtensionContext) {
 				let line = document.lineAt(position.line);
 				let leftText = line.text.substring(0, position.character + 1);
 
-				const newPosition = position.translate(0, 1);
-				if (showPreview && check(snakeRuleMap[fileExtension], leftText)) {
-					editor.setDecorations(snakePreviewDecorationType, [new vscode.Range(newPosition, newPosition)]);
-				} else if (showPreview && check(pascalRuleMap[fileExtension], leftText)) {
-					editor.setDecorations(pascalPreviewDecorationType, [new vscode.Range(newPosition, newPosition)]);
-				} else {
-					editor.setDecorations(snakePreviewDecorationType, []);
-					editor.setDecorations(pascalPreviewDecorationType, []);
-				}
-
 				// check if the change was a deletion
 				let isDeletion = event.contentChanges.some((change) => change.text === "");
+
+				// show icon indicator
+				const newPosition = position.translate(0, 1);
+				if (showIcon && check(snakeRuleMap[fileExtension], leftText)) {
+					editor.setDecorations(snakePreviewDecorationType, [new vscode.Range(newPosition, newPosition)]);
+				} else if (showIcon && check(camelRuleMap[fileExtension], leftText)) {
+					editor.setDecorations(camelPreviewDecorationType, [new vscode.Range(newPosition, newPosition)]);
+				} else {
+					editor.setDecorations(snakePreviewDecorationType, []);
+					editor.setDecorations(camelPreviewDecorationType, []);
+				}
+
+				// show line indicator
+				const lineDecorationOptions: vscode.DecorationOptions[] = [{
+					range: new vscode.Range(position.line, 0, position.line, Number.MAX_VALUE)
+				}];
+				if (showLine && check(snakeRuleMap[fileExtension], leftText)) {
+					editor.setDecorations(snakeLineDecorationType, lineDecorationOptions);
+				} else if (showLine && check(camelRuleMap[fileExtension], leftText)) {
+					editor.setDecorations(pascalLineDecorationType, lineDecorationOptions);
+				} else {
+					editor.setDecorations(snakeLineDecorationType, []);
+					editor.setDecorations(pascalLineDecorationType, []);
+				}
 
 				if (isDeletion) { return; }
 
@@ -92,6 +119,16 @@ export function activate(context: vscode.ExtensionContext) {
 						if (editor) {
 							let newPosition = new vscode.Position(position.line, updatedLeftText.length);
 							editor.selection = new vscode.Selection(newPosition, newPosition);
+							if (fileExtension) {
+								if (showIcon && check(snakeRuleMap[fileExtension], updatedLeftText)) {
+									editor.setDecorations(snakePreviewDecorationType, [new vscode.Range(newPosition, newPosition)]);
+								} else if (showIcon && check(camelRuleMap[fileExtension], updatedLeftText)) {
+									editor.setDecorations(camelPreviewDecorationType, [new vscode.Range(newPosition, newPosition)]);
+								} else {
+									editor.setDecorations(snakePreviewDecorationType, []);
+									editor.setDecorations(camelPreviewDecorationType, []);
+								}
+							}
 						}
 					});
 				}
