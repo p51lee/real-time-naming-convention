@@ -10,6 +10,7 @@ const reservedWords: string[] = [
   'async', 'elif', 'if', 'or', 'yield'
 ];
 const excludePattern = `(?!(?:${reservedWords.join('|')})\\b)`;
+const includePattern = `(?:${reservedWords.join('|')})\\b`;
 
 export const camelRules: Rule[] = [
   // Class Definitions (PascalCase)
@@ -178,10 +179,10 @@ export const snakeRules: Rule[] = [
 export const pythonRules: Rule[] = [
   // apply snake_case with reserved words
   {
-    pattern: new RegExp(`(${excludePattern})\\s(\\w+\\s?)=`),
+    pattern: new RegExp(`((?:^\\s*)${includePattern})\\s(\\w+\\s?)=`),
     convention: Convention.snakeCase,
     replacer: text => {
-      let replacePattern = new RegExp(`((?:^\\s*)${excludePattern})\\s(\\w+\\s?)=`);
+      let replacePattern = new RegExp(`((?:^\\s*)${includePattern})\\s(\\w+\\s?)=`);
       let updatedText = text.replace(replacePattern, (match, p1, p2) => {
         return `${p1}_${p2}=`;
       });

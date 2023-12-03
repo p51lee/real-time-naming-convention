@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/p51lee/real-time-naming-convention"
   },
-  "version": "0.1.3",
+  "version": "0.2.0",
   "engines": {
     "vscode": "^1.83.0"
   },

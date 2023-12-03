@@ -159,6 +159,10 @@ Users appreciate release notes as you update your extension.
 ### 0.1.3
 * Add Python unpacking patterns
 * Add demo GIF in readme.md
+
+### 0.2.0
+* Add optional indication for automatic modification
+* Add correction rule for reserved word exception
 ---
 
 **Enjoy!**
